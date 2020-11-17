@@ -28,7 +28,7 @@ class ItemsStat
 
         static::migration($task_id);
 
-        $item = class_exists(\App\Http\Models\Item::class) ? new (\App\Http\Models\Item()) : new \Szkj\Stat\Models\Item();
+        $item = class_exists(\App\Models\Item::class) ? new (\App\Models\Item()) : new \Szkj\Stat\Models\Item();
 
         return $item->setTable(static::tableName($task_id));
 
@@ -40,7 +40,7 @@ class ItemsStat
 
         $where = config('szkj.items.drives.db.where');
 
-        $created_at = class_exists(\App\Http\Models\Task::class) ? \App\Http\Models\Task::CREATED_AT : \Szkj\Collection\Models\Task::CREATED_AT;
+        $created_at = class_exists(\App\Models\Task::class) ? \App\Models\Task::CREATED_AT : \Szkj\Collection\Models\Task::CREATED_AT;
 
         $query = DB::connection($connection)->table('task')->orderBy($created_at,'desc');
 
