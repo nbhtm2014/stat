@@ -1,0 +1,31 @@
+{
+    "name": "szkj\/stat",
+    "description": "Package description here.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "nbhtm",
+            "email": "70140129@qq.com"
+        }
+    ],
+    "require": {
+        "php": "^7.2",
+        "laravel/framework": "~8.0",
+        "dingo/api": "^3.0",
+        "ext-json": "*",
+        "szkj/collection": "9999999-dev",
+        "szkj/rbac": "9999999-dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "Szkj\\Stat\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Szkj\\Stat\\Providers\\SzkjStatServiceProvider"
+            ]
+        }
+    }
+}
