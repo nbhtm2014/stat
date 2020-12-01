@@ -27,6 +27,8 @@ class SzkjStatServiceProvider extends ServiceProvider
         $this->app->singleton(ItemStat::class);
 
         $this->app->alias(ItemStat::class, 'ItemsStat');
+
+        $this->commands($this->commands);
     }
 
     public function provides()
