@@ -8,21 +8,29 @@ namespace Szkj\Stat\Providers;
 
 
 use Illuminate\Support\ServiceProvider;
-use Szkj\Stat\ItemsStat;
+use Szkj\Stat\Console\Commands\InstallCommand;
+use Szkj\Stat\ItemStat;
 
 class SzkjStatServiceProvider extends ServiceProvider
 {
     protected $defer = true;
 
+    /**
+     * @var array
+     */
+    protected $commands = [
+        InstallCommand::class,
+    ];
+
     public function register()
     {
-        $this->app->singleton(ItemsStat::class);
+        $this->app->singleton(ItemStat::class);
 
-        $this->app->alias(ItemsStat::class, 'ItemsStat');
+        $this->app->alias(ItemStat::class, 'ItemsStat');
     }
 
     public function provides()
     {
-        return [ItemsStat::class, 'ItemsStat'];
+        return [ItemStat::class, 'ItemsStat'];
     }
 }

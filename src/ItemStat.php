@@ -12,29 +12,35 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Illuminate\Database\Eloquent\Builder;
 
-class ItemsStat
+class ItemStat
 {
 
-    public static function query(Integer $task_id = null){
+    /**
+     * @param Integer|null $task_id
+     * @return Builder
+     */
+    public static function query(Integer $task_id = null)
+    {
 
         $drive = config('szkj.items.drive');
 
-        if (!class_exists($drive)){
+        if (!class_exists($drive)) {
             throw new BadRequestHttpException('config bad,szkj.items.drive is db or appoint');
         }
 
         $task_id = $task_id ? $task_id : static::{$drive}();
 
-        static::migration($task_id);
-
         $item = class_exists(\App\Models\Item::class) ? new (\App\Models\Item()) : new \Szkj\Stat\Models\Item();
 
-        return $item->setTable(static::tableName($task_id));
+        return $item->setTable(static::tableName($task_id))->newQuery();
 
     }
 
-    protected function db(){
+
+    protected function db()
+    {
 
         $connection = config('database.default');
 
@@ -42,16 +48,17 @@ class ItemsStat
 
         $created_at = class_exists(\App\Models\Task::class) ? \App\Models\Task::CREATED_AT : \Szkj\Collection\Models\Task::CREATED_AT;
 
-        $query = DB::connection($connection)->table('task')->orderBy($created_at,'desc');
+        $query = DB::connection($connection)->table('task')->orderBy($created_at, 'desc');
 
         foreach ($where as $k => $v) {
-            $query->where($k,$v);
+            $query->where($k, $v);
         }
 
         return $query->first()->id;
     }
 
-    protected function appoint(){
+    protected function appoint()
+    {
         return config('szkj.items.drives.appoint.task_id');
     }
 
@@ -60,13 +67,15 @@ class ItemsStat
      * @param $task_id
      * @return string
      */
-    protected static function tableName($task_id){
-        return 'items_'.$task_id;
+    protected static function tableName($task_id)
+    {
+        return 'items_' . $task_id.' as items';
     }
 
 
-    protected static  function migration($task_id){
-        if (!Schema::hasTable(static::tableName($task_id))){
+    public static function migration($task_id)
+    {
+        if (!Schema::hasTable(static::tableName($task_id))) {
             Schema::create(static::tableName($task_id), function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->integer('task_id')->default(0)->comment('任务id');
@@ -87,13 +96,12 @@ class ItemsStat
                 $table->string('seller_id', 255)->nullable();
                 $table->string('classify', 255)->nullable()->comment('公司分类');
                 $table->string('item_url', 255)->nullable()->comment('商品链接');
-                $table->index('task_id','task_id');
-                $table->index(['nid','platform_id','seller_id']);
-                $table->index('classify','classify');
-                $table->index('item_url','item_url');
+                $table->index('task_id', 'task_id');
+                $table->index(['nid', 'platform_id', 'seller_id']);
+                $table->index('classify', 'classify');
+                $table->index('item_url', 'item_url');
                 $table->timestamps();
             });
         }
-
     }
 }
