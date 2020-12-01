@@ -1,20 +1,20 @@
 <?php
 /**
  * Creator htm
- * Created by 2020/12/1 10:16
+ * Created by 2020/12/1 15:54
  **/
 
-namespace DummyNamespace;
+namespace Szkj\Stat\Models;
 
 
 use Illuminate\Database\Eloquent\Model;
 
-class WeChat extends Model
+class Area extends Model
 {
     /**
      * @var string
      */
-    protected $table = 'wechat';
+    protected $table = 'areas';
 
     /**
      * @var array

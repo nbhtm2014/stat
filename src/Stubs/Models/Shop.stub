@@ -4,7 +4,7 @@
  * Created by 2020/12/1 10:35
  **/
 
-DummyNamespace;
+namespace DummyNamespace;
 
 
 use Illuminate\Database\Eloquent\Model;
