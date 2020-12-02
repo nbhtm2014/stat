@@ -39,7 +39,7 @@ class ItemStat
     }
 
 
-    protected function db()
+    public static function db()
     {
 
         $connection = config('database.default');
@@ -48,16 +48,19 @@ class ItemStat
 
         $created_at = class_exists(\App\Models\Task::class) ? \App\Models\Task::CREATED_AT : \Szkj\Collection\Models\Task::CREATED_AT;
 
-        $query = DB::connection($connection)->table('task')->orderBy($created_at, 'desc');
+        $query = DB::connection($connection)->table('tasks')->orderBy($created_at, 'desc');
 
         foreach ($where as $k => $v) {
             $query->where($k, $v);
         }
-
-        return $query->first()->id;
+        try {
+            return $query->first()->id;
+        }catch (\Exception $exception){
+            throw new BadRequestHttpException('No this task');
+        }
     }
 
-    protected function appoint()
+    public static function appoint()
     {
         return config('szkj.items.drives.appoint.task_id');
     }
