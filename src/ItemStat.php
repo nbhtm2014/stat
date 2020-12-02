@@ -26,13 +26,13 @@ class ItemStat
 
         $drive = config('szkj.items.drive');
 
-        if (!class_exists($drive)) {
+        if ($drive != 'db' && $drive != 'appoint') {
             throw new BadRequestHttpException('config bad,szkj.items.drive is db or appoint');
         }
 
         $task_id = $task_id ? $task_id : static::{$drive}();
 
-        $item = class_exists(\App\Models\Item::class) ? new (\App\Models\Item()) : new \Szkj\Stat\Models\Item();
+        $item = class_exists(\App\Models\Item::class) ? new \App\Models\Item() : new \Szkj\Stat\Models\Item();
 
         return $item->setTable(static::tableName($task_id))->newQuery();
 
