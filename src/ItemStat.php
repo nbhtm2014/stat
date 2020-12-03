@@ -103,6 +103,7 @@ class ItemStat
                 $table->index(['nid', 'platform_id', 'seller_id']);
                 $table->index('classify', 'classify');
                 $table->index('item_url', 'item_url');
+                $table->index(['platform_id', 'item_url']);
                 $table->timestamps();
             });
         }
