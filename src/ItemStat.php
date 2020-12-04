@@ -10,7 +10,6 @@ namespace Szkj\Stat;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -18,10 +17,10 @@ class ItemStat
 {
 
     /**
-     * @param Integer|null $task_id
+     * @param null $task_id
      * @return Builder
      */
-    public static function query(Integer $task_id = null)
+    public static function query($task_id = null): Builder
     {
 
         $drive = config('szkj.items.drive');
