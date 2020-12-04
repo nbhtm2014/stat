@@ -99,11 +99,12 @@ class ItemStat
                 $table->string('seller_id', 255)->nullable();
                 $table->string('classify', 255)->nullable()->comment('公司分类');
                 $table->string('item_url', 255)->nullable()->comment('商品链接');
+
                 $table->index('task_id', 'task_id');
                 $table->index(['nid', 'platform_id', 'seller_id']);
                 $table->index('classify', 'classify');
                 $table->index('item_url', 'item_url');
-                $table->index(['platform_id', 'item_url']);
+                $table->index(['platform_id', 'shop_id','view_sales','view_amount']);
                 $table->timestamps();
             });
         }
